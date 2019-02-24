@@ -1,0 +1,43 @@
+@startuml
+|EDA - mvp|
+|Mikrolab data processor|
+|AWS S3|
+|EDA - mvp|
+
+start
+:bucket, source_file_name, target_file_name]
+:get data from s3;
+|AWS S3|
+#Orange:download_file>
+|EDA - mvp|
+if (exception) then (raise)
+    #HotPink:log error;
+    end
+endif
+|Mikrolab data processor|
+:read raw file;
+:source data]
+:process data;
+:write csv file;
+|EDA - mvp|
+:upload converted data;
+|AWS S3|
+#Orange:upload_file>
+|EDA - mvp|
+:build dataset;
+:hourly resampling;
+:write resampled chart; 
+while (attribute)
+    :describe numeric feature;
+endwhile
+:dataset]
+:correlation_chart;
+:eda_bucket, charts_directory]
+:upload_charts;
+while (chart)
+   |AWS S3|
+    #Orange:upload_file>
+    |EDA - mvp|
+endwhile
+stop
+@enduml
