@@ -1,16 +1,16 @@
-#Intelligent Ecosystem - project overview
+# Intelligent Ecosystem - project overview
 
-##work streams
+## work streams
 
-###IoT
+### IoT
     - mqtt broker
     - cloud integration
-###machine learning
+### machine learning
     - plant visual recognition
     - data analysis (with microlab)    
-###API
+### API
     - plant catalogue
-###publishing
+### publishing
     - visual documentation
     - web hosting
 
