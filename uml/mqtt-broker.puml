@@ -1,0 +1,51 @@
+@startuml
+
+skinparam component {
+    FontColor          blackπ
+    AttributeFontColor black
+    FontSize           17
+    AttributeFontSize  15
+    AttributeFontname  Droid Sans Mono
+    BackgroundColor    #6A9EFF
+    BorderColor        black
+    ArrowColor         #222266
+}
+
+skinparam componentStyle uml2
+
+    package "Compute" {
+	    node "EC2 instance" {
+		    [mqtt broker]
+            [mqtt client]
+	    }
+    }
+
+    package "IoT" {
+        interface "local_gateway_to_aws_iot" as Act
+        ["EI_store_to_sqs"]
+        [mqtt broker] --> Act: **SEND**
+	}
+
+    package "SQS" {
+        queue "EI-mqtt-ingres" as IngressQ
+        queue "EI-mqtt-error" as ErrorQ
+        queue "EI-mqtt-processed" as ProcessedQ
+        queue "EI-mqtt-ingress-error" as IngressErrorQ
+        
+	}
+
+
+    database "DynamoDB" {
+        ["mqtt-data"] 
+
+	}
+
+[mqtt client] --> [mqtt broker]
+Act --> ["EI_store_to_sqs"]
+["EI_store_to_sqs"] --> IngressQ
+["EI_store_to_sqs"] ..> IngressErrorQ
+IngressQ ..> ErrorQ
+IngressQ ..> ProcessedQ
+IngressQ --> ["mqtt-data"]
+
+@enduml
