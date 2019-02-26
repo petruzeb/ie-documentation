@@ -15,3 +15,4 @@ This MVP explores our ability to accept data from third party. Complete and corr
 
 ### ie-mikrolab-data-processor
 ![](.//out/uml/mikrolab-data-processor/mikrolab-data-processor.svg)
+
